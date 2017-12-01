@@ -3,6 +3,7 @@
 import db
 import tkinter as tk
 from tkinter import ttk
+from objects import Movie
 
 
 class MovieInputFrame(ttk.Frame):
@@ -14,6 +15,7 @@ class MovieInputFrame(ttk.Frame):
         self.movieTitle = tk.StringVar()
         self.year = tk.StringVar()
         self.category = tk.StringVar()
+        self.minutes = tk.StringVar()
 
         # initialize gui components
         self.initComponents()
@@ -36,18 +38,27 @@ class MovieInputFrame(ttk.Frame):
         ttk.Combobox(self, values=self.populateCombo()).grid(
             column=1, row=2, sticky=tk.W)
 
+        ttk.Label(self, text="Minutes:").grid(
+            column=0, row=3, sticky=tk.E)
+        ttk.Entry(self, width=10, textvariable=self.minutes).grid(
+            column=1, row=3, sticky=tk.W)
+
+        self.makeButtons()
+
         for child in self.winfo_children():
             child.grid_configure(padx=5, pady=3)
 
     def makeButtons(self):
         # create a frame to store two buttons
         buttonFrame = ttk.Frame(self)
-        buttonFrame.grid(column=0, row=3, columnspan=2, sticky=tk.E)
+        buttonFrame.grid(column=0, row=4, columnspan=3, sticky=tk.E)
 
         ttk.Button(buttonFrame, text="Clear",
                    command=self.clear).grid(column=0, row=0, padx=5)
         ttk.Button(buttonFrame, text="Save",
                    command=self.saveMovie).grid(column=1, row=0)
+        ttk.Button(buttonFrame, text="Exit",
+                   command=self.close).grid(column=2, row=0)
 
     # populated to drop down list from the database
     def populateCombo(self):
@@ -59,7 +70,22 @@ class MovieInputFrame(ttk.Frame):
 
     def saveMovie(self):
         movieTitle = self.movieTitle.get()
-        year = self.year.get()
+        year = int(self.year.get())
+        category = self.category.get()
+        minutes = int(self.minutes.get())
+
+        movie = Movie(name=movieTitle, year=year, minutes=minutes, category=category)
+        db.add_movie(movie)
+
+    def clear(self):
+        self.movieTitle.set("")
+        self.year.set("")
+        self.minutes.set("")
+        self.category.set("")
+
+    def close(self):
+        db.close()
+        self.parent.destroy()
 
 
 def main():
@@ -68,7 +94,6 @@ def main():
     root.title("Movie Catalog")
     MovieInputFrame(root)
     root.mainloop()
-    db.close()
 
 
 if __name__ == '__main__':
