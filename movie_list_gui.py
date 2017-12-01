@@ -3,7 +3,7 @@
 import db
 import tkinter as tk
 from tkinter import ttk
-from objects import Movie, Category
+from objects import Movie
 
 
 class MovieInputFrame(ttk.Frame):
