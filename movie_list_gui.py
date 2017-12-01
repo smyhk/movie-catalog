@@ -16,7 +16,7 @@ class MovieInputFrame(ttk.Frame):
         self.year = tk.StringVar()
         self.category = tk.StringVar()
         self.minutes = tk.StringVar()
-
+        self.cbox = None
         # initialize gui components
         self.initComponents()
 
@@ -35,7 +35,8 @@ class MovieInputFrame(ttk.Frame):
 
         ttk.Label(self, text="Category:").grid(
             column=0, row=2, sticky=tk.E)
-        ttk.Combobox(self, values=self.populateCombo()).grid(
+        self.cbox = ttk.Combobox(self, values=self.populateCombo(),
+                                 textvariable=self.category).grid(
             column=1, row=2, sticky=tk.W)
 
         ttk.Label(self, text="Minutes:").grid(
@@ -49,7 +50,7 @@ class MovieInputFrame(ttk.Frame):
             child.grid_configure(padx=5, pady=3)
 
     def makeButtons(self):
-        # create a frame to store two buttons
+        # create a frame to store three buttons
         buttonFrame = ttk.Frame(self)
         buttonFrame.grid(column=0, row=4, columnspan=3, sticky=tk.E)
 
@@ -60,7 +61,7 @@ class MovieInputFrame(ttk.Frame):
         ttk.Button(buttonFrame, text="Exit",
                    command=self.close).grid(column=2, row=0)
 
-    # populated to drop down list from the database
+    # populate the drop down list from the database
     def populateCombo(self):
         cat_list = []
         categories = db.get_categories()
@@ -71,7 +72,7 @@ class MovieInputFrame(ttk.Frame):
     def saveMovie(self):
         movieTitle = self.movieTitle.get()
         year = int(self.year.get())
-        category = self.category.get()
+        category = self.cbox.bind("<<>ComboboxSelected>")
         minutes = int(self.minutes.get())
 
         movie = Movie(name=movieTitle, year=year, minutes=minutes, category=category)
