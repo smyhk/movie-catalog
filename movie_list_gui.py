@@ -58,9 +58,9 @@ class MovieInputFrame(ttk.Frame):
         ttk.Button(buttonFrame, text="Clear",
                    command=self.clear).grid(column=0, row=0, padx=5)
         ttk.Button(buttonFrame, text="Save",
-                   command=self.saveMovie).grid(column=1, row=0)
+                   command=self.saveMovie).grid(column=1, row=0, padx=5)
         ttk.Button(buttonFrame, text="Exit",
-                   command=self.close).grid(column=2, row=0)
+                   command=self.close).grid(column=2, row=0, padx=5)
 
     # populate the drop down list from the database
     def populateCombo(self):
