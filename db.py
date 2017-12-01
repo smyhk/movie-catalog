@@ -60,6 +60,17 @@ def get_category(category_id):
     return category
 
 
+def get_category_by_name(category_name):
+    query = '''SELECT categoryId, name AS categoryName
+               FROM Category WHERE categoryName = ?'''
+    with closing(conn.cursor()) as c:
+        c.execute(query, (category_name,))
+        row = c.fetchone()
+
+    category = make_category(row)
+    return category
+
+
 def get_movies_by_category(category_id):
     query = '''SELECT movieID, Movie.name, year, minutes,
                       Movie.categoryId AS categoryID,

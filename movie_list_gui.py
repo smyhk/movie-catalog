@@ -3,7 +3,7 @@
 import db
 import tkinter as tk
 from tkinter import ttk
-from objects import Movie
+from objects import Movie, Category
 
 
 class MovieInputFrame(ttk.Frame):
@@ -17,6 +17,7 @@ class MovieInputFrame(ttk.Frame):
         self.category = tk.StringVar()
         self.minutes = tk.StringVar()
         self.cbox = None
+
         # initialize gui components
         self.initComponents()
 
@@ -72,8 +73,10 @@ class MovieInputFrame(ttk.Frame):
     def saveMovie(self):
         movieTitle = self.movieTitle.get()
         year = int(self.year.get())
-        category = self.cbox.bind("<<>ComboboxSelected>")
+        category = self.category.get()
         minutes = int(self.minutes.get())
+
+        category = db.get_category_by_name(category)
 
         movie = Movie(name=movieTitle, year=year, minutes=minutes, category=category)
         db.add_movie(movie)
