@@ -87,7 +87,7 @@ class MovieInputFrame(ttk.Frame):
         toplevel = tk.Toplevel()
         toplevel.title("Movie Add Confirmation")
         ttk.Label(toplevel, text=title + " was added.").grid(
-            column=0, row=0, padx=(50, 50), pady=(10, 10))
+            column=0, row=0, padx=(45, 45), pady=(10, 10))
         ttk.Button(toplevel, text="OK", command=toplevel.destroy).grid(
             column=0, row=1, pady=(10, 20))
 
