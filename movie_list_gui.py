@@ -18,13 +18,18 @@ class MovieOutputFrame(ttk.Frame):
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent, padding="10 10 10 10")
 
-        self.tree = ttk.Treeview(height=10, columns=("year", "mins", "genre"))
+        self.tree = ttk.Treeview(height=10, columns=("name", "year", "mins", "genre"))
         self.tree.grid(row=1, column=0)
-        self.tree.heading('#0', text="Name", anchor=tk.W)
+        # TODO: Set column width for each header
+        self.tree.heading('#0', text="ID", anchor=tk.W)
+        self.tree.heading("name", text="Name", anchor=tk.W)
         self.tree.heading("year", text="Year", anchor=tk.W)
         self.tree.heading("mins", text="Minutes", anchor=tk.W)
         self.tree.heading("genre", text="Category", anchor=tk.W)
 
+        self.viewRecords()
+
+    def viewRecords(self):
         records = self.tree.get_children()
         for element in records:
             self.tree.delete(element)
@@ -32,8 +37,20 @@ class MovieOutputFrame(ttk.Frame):
         movies = db.get_all_movies()
         for movie in movies:
             self.tree.insert('', 0,
-                             text=movie.name,
-                             values=(movie.year, movie.minutes, movie.category.name))
+                             text=movie.id,
+                             values=(movie.name, movie.year, movie.minutes, movie.category.name))
+
+    def deleteMovie(self):
+        try:
+            self.tree.item(self.tree.selection())['values'][0]
+        except IndexError as e:
+            print("Please record select a record")
+            # self.message[text] = 'Please select record'
+            return
+        movie_id = self.tree.item(self.tree.selection())['ID']
+        db.delete_movie(movie_id)
+
+        self.viewRecords()
 
 
 class MovieInputFrame(ttk.Frame):
