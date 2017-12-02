@@ -46,7 +46,6 @@ class MovieInputFrame(ttk.Frame):
         self.year = tk.StringVar()
         self.category = tk.StringVar()
         self.minutes = tk.StringVar()
-        self.cbox = None
 
         # initialize gui components
         self.initComponents()
@@ -66,7 +65,7 @@ class MovieInputFrame(ttk.Frame):
 
         ttk.Label(self, text="Category:").grid(
             column=0, row=2, sticky=tk.E)
-        self.cbox = ttk.Combobox(self, values=self.populateCombo(),
+        ttk.Combobox(self, values=self.populateCombo(),
                                  textvariable=self.category).grid(
             column=1, row=2, sticky=tk.W)
 
