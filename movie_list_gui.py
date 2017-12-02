@@ -65,8 +65,7 @@ class MovieInputFrame(ttk.Frame):
 
         ttk.Label(self, text="Category:").grid(
             column=0, row=2, sticky=tk.E)
-        ttk.Combobox(self, values=self.populateCombo(),
-                                 textvariable=self.category).grid(
+        ttk.Combobox(self, values=self.populateCombo(), textvariable=self.category).grid(
             column=1, row=2, sticky=tk.W)
 
         ttk.Label(self, text="Minutes:").grid(
@@ -82,14 +81,14 @@ class MovieInputFrame(ttk.Frame):
     def makeButtons(self):
         # create a frame to store three buttons
         buttonFrame = ttk.Frame(self)
-        buttonFrame.grid(column=0, row=4, columnspan=3, sticky=tk.W)
+        buttonFrame.grid(column=1, row=4, columnspan=3, sticky=tk.W)
 
         ttk.Button(buttonFrame, text="Clear",
-                   command=self.clear).grid(column=0, row=0, padx=5)
+                   command=self.clear).grid(column=0, row=0, pady=5)
         ttk.Button(buttonFrame, text="Save",
-                   command=self.saveMovie).grid(column=1, row=0, padx=5)
+                   command=self.saveMovie).grid(column=1, row=0, padx=(5, 5))
         ttk.Button(buttonFrame, text="Exit", command=self.close).grid(
-            column=2, row=0, padx=5)
+            column=2, row=0)
 
     # populate the drop down list from the database
     def populateCombo(self):
