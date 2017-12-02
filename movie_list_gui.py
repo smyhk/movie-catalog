@@ -6,6 +6,37 @@ from tkinter import ttk
 from objects import Movie
 
 
+class MovieFrames(ttk.Frame):
+    def __init__(self, parent):
+        ttk.Frame.__init__(self, parent)
+
+        MovieInputFrame(parent).grid(column=0, row=0, sticky=tk.W)
+        MovieOutputFrame(parent).grid(column=0, row=1, sticky=tk.W)
+
+
+class MovieOutputFrame(ttk.Frame):
+    def __init__(self, parent):
+        ttk.Frame.__init__(self, parent, padding="10 10 10 10")
+        myList = tk.Listbox(self, width=80)
+
+        line_format = "{:<60s} {:>10s} {:<10s} {:10s}"
+        header = line_format.format("Name", "Year", "Mins", "Category")
+        myList.insert(0, header)
+        myList.insert(1, "-" * 80)
+
+        movies = db.get_all_movies()
+        for movie in movies:
+            i = 2
+            item = line_format.format(movie.name,
+                                      str(movie.year),
+                                      str(movie.minutes),
+                                      movie.category.name)
+            myList.insert(i, item)
+            i += 1
+
+        myList.pack()
+
+
 class MovieInputFrame(ttk.Frame):
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent, padding="10 10 10 10")
@@ -22,7 +53,7 @@ class MovieInputFrame(ttk.Frame):
         self.initComponents()
 
     def initComponents(self):
-        self.pack()
+        # self.pack()
 
         ttk.Label(self, text="Movie Title:").grid(
             column=0, row=0, sticky=tk.E)
@@ -106,7 +137,7 @@ def main():
     db.connect()
     root = tk.Tk()
     root.title("Movie Catalog")
-    MovieInputFrame(root)
+    MovieFrames(root)
     root.mainloop()
 
 

@@ -72,16 +72,19 @@ def get_category_by_name(category_name):
 
 
 def get_all_movies():
-    query = '''SELECT Movie.name, year, minutes, Category.name AS category
-               FROM Movie JOIN Category ON movie.categoryID = Category.categoryID'''
+    query = '''SELECT movieID, Movie.name, year, minutes,
+                      Movie.categoryId AS categoryID,
+                      Category.name as categoryName
+               FROM Movie JOIN Category ON Movie.categoryID = Category.categoryID
+               ORDER BY Movie.name DESC'''
     with closing(conn.cursor()) as c:
         c.execute(query)
         results = c.fetchall()
 
-        movies = []
-        for row in results:
-            movies.append(make_movie(row))
-        return movies
+    movies = []
+    for row in results:
+        movies.append(make_movie(row))
+    return movies
 
 
 def get_movies_by_category(category_id):
