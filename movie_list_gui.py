@@ -31,7 +31,7 @@ class MovieOutputFrame(ttk.Frame):
 
         movies = db.get_all_movies()
         for movie in movies:
-            self.tree.insert('', 1,
+            self.tree.insert('', 0,
                              text=movie.name,
                              values=(movie.year, movie.minutes, movie.category.name))
 
