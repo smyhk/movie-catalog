@@ -29,6 +29,9 @@ class MovieOutputFrame(ttk.Frame):
 
         self.viewRecords()
 
+        ttk.Button(parent, text="Delete", command=self.deleteMovie).grid(
+            column=0, row=2, sticky=tk.W, pady=(10, 10))
+
     def viewRecords(self):
         records = self.tree.get_children()
         for element in records:
@@ -47,7 +50,7 @@ class MovieOutputFrame(ttk.Frame):
             print("Please record select a record")
             # self.message[text] = 'Please select record'
             return
-        movie_id = self.tree.item(self.tree.selection())['ID']
+        movie_id = self.tree.item(self.tree.selection())['text']
         db.delete_movie(movie_id)
 
         self.viewRecords()
