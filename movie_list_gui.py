@@ -81,6 +81,16 @@ class MovieInputFrame(ttk.Frame):
         movie = Movie(name=movieTitle, year=year, minutes=minutes, category=category)
         db.add_movie(movie)
 
+        self.confirmMovieAdd(movieTitle)
+
+    def confirmMovieAdd(self, title):
+        toplevel = tk.Toplevel()
+        toplevel.title("Movie Add Confirmation")
+        ttk.Label(toplevel, text=title + " was added.").grid(
+            column=0, row=0, padx=(50, 50), pady=(10, 10))
+        ttk.Button(toplevel, text="OK", command=toplevel.destroy).grid(
+            column=0, row=1, pady=(10, 20))
+
     def clear(self):
         self.movieTitle.set("")
         self.year.set("")
