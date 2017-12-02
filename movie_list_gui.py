@@ -19,7 +19,7 @@ class MovieOutputFrame(ttk.Frame):
         ttk.Frame.__init__(self, parent, padding="10 10 10 10")
 
         self.tree = ttk.Treeview(height=10, columns=("name", "year", "mins", "genre"))
-        self.tree.grid(row=1, column=0)
+        self.tree.grid(row=1, column=0, padx=(10, 10))
         # TODO: Set column width for each header
         self.tree.heading('#0', text="ID", anchor=tk.W)
         self.tree.heading("name", text="Name", anchor=tk.W)
@@ -27,10 +27,11 @@ class MovieOutputFrame(ttk.Frame):
         self.tree.heading("mins", text="Minutes", anchor=tk.W)
         self.tree.heading("genre", text="Category", anchor=tk.W)
 
+        # currently display all records in the database
         self.viewRecords()
 
         ttk.Button(parent, text="Delete", command=self.deleteMovie).grid(
-            column=0, row=2, sticky=tk.W, pady=(10, 10))
+            column=0, row=2, sticky=tk.W, padx=10, pady=(10, 10))
 
     def viewRecords(self):
         records = self.tree.get_children()
