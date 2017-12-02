@@ -17,24 +17,23 @@ class MovieFrames(ttk.Frame):
 class MovieOutputFrame(ttk.Frame):
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent, padding="10 10 10 10")
-        myList = tk.Listbox(self, width=80)
 
-        line_format = "{:<60s} {:>10s} {:<10s} {:10s}"
-        header = line_format.format("Name", "Year", "Mins", "Category")
-        myList.insert(0, header)
-        myList.insert(1, "-" * 80)
+        self.tree = ttk.Treeview(height=10, columns=("year", "mins", "genre"))
+        self.tree.grid(row=1, column=0)
+        self.tree.heading('#0', text="Name", anchor=tk.W)
+        self.tree.heading("year", text="Year", anchor=tk.W)
+        self.tree.heading("mins", text="Minutes", anchor=tk.W)
+        self.tree.heading("genre", text="Category", anchor=tk.W)
+
+        records = self.tree.get_children()
+        for element in records:
+            self.tree.delete(element)
 
         movies = db.get_all_movies()
         for movie in movies:
-            i = 2
-            item = line_format.format(movie.name,
-                                      str(movie.year),
-                                      str(movie.minutes),
-                                      movie.category.name)
-            myList.insert(i, item)
-            i += 1
-
-        myList.pack()
+            self.tree.insert('', 1,
+                             text=movie.name,
+                             values=(movie.year, movie.minutes, movie.category.name))
 
 
 class MovieInputFrame(ttk.Frame):
@@ -84,14 +83,14 @@ class MovieInputFrame(ttk.Frame):
     def makeButtons(self):
         # create a frame to store three buttons
         buttonFrame = ttk.Frame(self)
-        buttonFrame.grid(column=0, row=4, columnspan=3, sticky=tk.E)
+        buttonFrame.grid(column=0, row=4, columnspan=3, sticky=tk.W)
 
         ttk.Button(buttonFrame, text="Clear",
                    command=self.clear).grid(column=0, row=0, padx=5)
         ttk.Button(buttonFrame, text="Save",
                    command=self.saveMovie).grid(column=1, row=0, padx=5)
-        ttk.Button(buttonFrame, text="Exit",
-                   command=self.close).grid(column=2, row=0, padx=5)
+        ttk.Button(buttonFrame, text="Exit", command=self.close).grid(
+            column=2, row=0, padx=5)
 
     # populate the drop down list from the database
     def populateCombo(self):
