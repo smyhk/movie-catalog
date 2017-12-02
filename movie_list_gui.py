@@ -40,9 +40,10 @@ class MovieOutputFrame(ttk.Frame):
 
         movies = db.get_all_movies()
         for movie in movies:
-            self.tree.insert('', 0,
-                             text=movie.id,
-                             values=(movie.name, movie.year, movie.minutes, movie.category.name))
+            self.tree.insert('', 0, text=movie.id, values=(movie.name,
+                                                           movie.year,
+                                                           movie.minutes,
+                                                           movie.category.name))
 
     def deleteMovie(self):
         try:
@@ -131,6 +132,9 @@ class MovieInputFrame(ttk.Frame):
         db.add_movie(movie)
 
         self.confirmMovieAdd(movieTitle)
+
+        mof = MovieOutputFrame(self)
+        mof.viewRecords()
 
     def confirmMovieAdd(self, title):
         toplevel = tk.Toplevel()
