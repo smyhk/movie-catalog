@@ -37,6 +37,9 @@ class MovieOutputFrame(ttk.Frame):
         ttk.Button(parent, text="Year", command=self.view_movies_by_year).grid(
             column=0, row=3, sticky=tk.W, padx=10, pady=(10, 10))
 
+        ttk.Button(parent, text="Refresh", command=self.refresh_record_view()).grid(
+            column=0, row=4, sticky=tk.W, padx=10, pady=(10, 10))
+
     def refresh_record_view(self):
         # currently display all records in the database
         movies = db.get_all_movies()
