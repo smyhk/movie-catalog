@@ -72,7 +72,7 @@ class MovieOutputFrame(ttk.Frame):
         movie_id = self.tree.item(self.tree.selection())['text']
         db.delete_movie(movie_id)
 
-        self.viewRecords()
+        self.refresh_record_view()
 
 
 class MovieInputFrame(ttk.Frame):
