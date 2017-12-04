@@ -29,15 +29,18 @@ class MovieOutputFrame(ttk.Frame):
         self.tree.heading("mins", text="Minutes", anchor=tk.W)
         self.tree.heading("genre", text="Category", anchor=tk.W)
 
-        # currently display all records in the database
-        movies = db.get_all_movies()
-        self.viewRecords(movies)
+        self.refresh_record_view()
 
         ttk.Button(parent, text="Delete", command=self.deleteMovie).grid(
             column=0, row=2, sticky=tk.W, padx=10, pady=(10, 10))
 
         ttk.Button(parent, text="Year", command=self.view_movies_by_year).grid(
             column=0, row=3, sticky=tk.W, padx=10, pady=(10, 10))
+
+    def refresh_record_view(self):
+        # currently display all records in the database
+        movies = db.get_all_movies()
+        self.viewRecords(movies)
 
     def viewRecords(self, movies):
         records = self.tree.get_children()
@@ -148,7 +151,7 @@ class MovieInputFrame(ttk.Frame):
         self.confirmMovieAdd(movieTitle)
 
         mof = MovieOutputFrame(self)
-        mof.viewRecords()
+        mof.refresh_record_view()
 
     def confirmMovieAdd(self, title):
         toplevel = tk.Toplevel()
