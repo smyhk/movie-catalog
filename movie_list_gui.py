@@ -20,8 +20,9 @@ class MovieOutputFrame(ttk.Frame):
 
         self.tree = ttk.Treeview(height=10, columns=("name", "year", "mins", "genre"))
         self.tree.grid(row=1, column=0, padx=(10, 10))
-        # TODO: Set column width for each header
+
         self.tree.heading('#0', text="ID", anchor=tk.W)
+        self.tree.column('#0', minwidth=0, width=0, stretch=tk.NO)
         self.tree.heading("name", text="Name", anchor=tk.W)
         self.tree.heading("year", text="Year", anchor=tk.W)
         self.tree.heading("mins", text="Minutes", anchor=tk.W)
