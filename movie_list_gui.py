@@ -2,6 +2,7 @@
 
 import db
 import tkinter as tk
+import tkinter.simpledialog as tkSimpleDialog
 from tkinter import ttk
 from objects import Movie
 
@@ -29,22 +30,34 @@ class MovieOutputFrame(ttk.Frame):
         self.tree.heading("genre", text="Category", anchor=tk.W)
 
         # currently display all records in the database
-        self.viewRecords()
+        movies = db.get_all_movies()
+        self.viewRecords(movies)
 
         ttk.Button(parent, text="Delete", command=self.deleteMovie).grid(
             column=0, row=2, sticky=tk.W, padx=10, pady=(10, 10))
 
-    def viewRecords(self):
+        ttk.Button(parent, text="Year", command=self.view_movies_by_year).grid(
+            column=0, row=3, sticky=tk.W, padx=10, pady=(10, 10))
+
+    def viewRecords(self, movies):
         records = self.tree.get_children()
         for element in records:
             self.tree.delete(element)
 
-        movies = db.get_all_movies()
         for movie in movies:
             self.tree.insert('', 0, text=movie.id, values=(movie.name,
                                                            movie.year,
                                                            movie.minutes,
                                                            movie.category.name))
+
+    def view_movies_by_year(self):
+        year = self.get_year_from_user()
+        movies = db.get_movies_by_year(year)
+        self.viewRecords(movies)
+
+    def get_year_from_user(self):
+        year = tkSimpleDialog.askinteger("List by Year", "Enter year:")
+        return year
 
     def deleteMovie(self):
         try:
