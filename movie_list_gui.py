@@ -37,7 +37,7 @@ class MovieOutputFrame(ttk.Frame):
         ttk.Button(parent, text="Year", command=self.view_movies_by_year).grid(
             column=0, row=3, sticky=tk.W, padx=10, pady=(10, 10))
 
-        ttk.Button(parent, text="Refresh", command=self.refresh_record_view()).grid(
+        ttk.Button(parent, text="Refresh", command=self.refresh_record_view).grid(
             column=0, row=4, sticky=tk.W, padx=10, pady=(10, 10))
 
     def refresh_record_view(self):
@@ -57,13 +57,14 @@ class MovieOutputFrame(ttk.Frame):
                                                            movie.category.name))
 
     def view_movies_by_year(self):
-        year = self.get_year_from_user()
+        year = tkSimpleDialog.askinteger("List by Year", "Enter year:")
         movies = db.get_movies_by_year(year)
         self.viewRecords(movies)
 
-    def get_year_from_user(self):
-        year = tkSimpleDialog.askinteger("List by Year", "Enter year:")
-        return year
+    def view_movies_by_minutes(self):
+        minutes = tkSimpleDialog.askinteger("List by Minutes", "Enter minutes:")
+        movies = db.get_movies_by_minutes(minutes)
+        self.viewRecords(movies)
 
     def deleteMovie(self):
         try:
