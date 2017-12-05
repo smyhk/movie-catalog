@@ -72,9 +72,8 @@ class MovieOutputFrame(ttk.Frame):
     def deleteMovie(self):
         try:
             self.tree.item(self.tree.selection())['values'][0]
-        except IndexError as e:
+        except IndexError:
             print("Please record select a record")
-            # self.message[text] = 'Please select record'
             return
         movie_id = self.tree.item(self.tree.selection())['text']
         db.delete_movie(movie_id)
